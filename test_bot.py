@@ -13,23 +13,32 @@ client = discord.Client()
 bot = commands.Bot(command_prefix='!')
 
 
-@bot.command(name='roll_dice', help='Simulates rolling dice.')
-async def roll_dice(ctx, number_of_dice: int, number_of_sides: int):
-    dice = [
-        str(random.choice(range(1, number_of_sides + 1)))
-        for _ in range(number_of_dice)
-    ]
-    await ctx.send(', '.join(dice))
-
-
 @bot.command(name="roll", help="Rolls any number of any sided dice, ex: 2d4")
-async def roll(ctx, user_input):
-    dice_array = user_input.split('d')
-    result_array = [
-        random.choice(range(1, int(dice_array[1]) + 1))
-        for _ in range(int(dice_array[0]))
-    ]
-    await ctx.send(result_array)
+async def roll(ctx, *, arg):
+    print(arg)
+    if "+" in arg or "-" in arg:
+        components = arg.split(' ')
+        dice_array = components[0].split('d')
+        modifier = int(components[2])
+        operand = components[1]
+
+        result_array = [
+            random.choice(range(1, int(dice_array[1]) + 1))
+            for _ in range(int(dice_array[0]))
+        ]
+        if operand == '+':
+            await ctx.send(f'Result: {result_array} + {modifier}\n'
+                           f'Sum of dice: {sum(result_array) + modifier}')
+        else:
+            await ctx.send(f'Result: {result_array} - {modifier}\n'
+                           f'Sum of dice: {sum(result_array) - modifier}')
+    else:
+        dice_array = arg.split('d')
+        result_array = [
+            random.choice(range(1, int(dice_array[1]) + 1))
+            for _ in range(int(dice_array[0]))
+        ]
+        await ctx.send(f'Result: {result_array}\nSum of dice: {sum(result_array)}')
 
 
 @bot.command(name='roll_stats', help='Rolls initial player stats')
