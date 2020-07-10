@@ -13,15 +13,16 @@ client = discord.Client()
 bot = commands.Bot(command_prefix='!')
 
 
-@bot.command(name="roll", help="Rolls any number of any sided dice, ex: 2d4")
+@bot.command(name="roll", help="Rolls any number of any sided dice, with or without modifiers ex: 2d4, 1d8 + 5")
 async def roll(ctx, *, arg):
-    print(arg)
+    # If roll has a modifier
     if "+" in arg or "-" in arg:
         components = arg.split(' ')
         dice_array = components[0].split('d')
         modifier = int(components[2])
         operand = components[1]
 
+        # Get array of numbers based on user input, aka rolling dice
         result_array = [
             random.choice(range(1, int(dice_array[1]) + 1))
             for _ in range(int(dice_array[0]))
@@ -57,6 +58,7 @@ async def roll_stats(ctx, times_called=0):
 
 
 def _roll_single_stat():
+    # Rolling 4 six sided dice, and dropping the lowest result
     dice = [
         random.choice(range(1, 7))
         for _ in range(4)
