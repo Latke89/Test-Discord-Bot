@@ -20,6 +20,7 @@ BASE_URL = os.getenv('BASE_URL')
 client = discord.Client()
 bot = commands.Bot(command_prefix='!')
 bot.load_extension('Cogs.Dice')
+bot.load_extension('Cogs.Spell')
 
 #
 #

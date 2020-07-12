@@ -1,1 +1,1 @@
-__all__ = ['Dice']
+__all__ = ['Dice', 'Spell']
